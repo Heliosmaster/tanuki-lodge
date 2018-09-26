@@ -18,5 +18,17 @@ If you reference a story in the description of a merge request, the following th
 - Merged merge request --> To be deployed
 
 
-**Note**: This is an incredibly rough version of this software, and a lot of things are still hardcoded / messy. For example the statuses that I just described are just my workflow on clubhouse, hardcoded.
+## Running the program
 
+```
+lein uberjar
+```
+
+it will create a JAR file in `target/tanuki-lodge.jar`. Simply execute that jar passing the following environment variables:
+
+* `token`: the clubhouse API token
+* `server-port`: in which to run the webserver
+
+so, for example, run it as
+
+`java -Dtoken="XXX" -Dserver.port=400 -jar /path/to/tanuki-lodge.jar`
