@@ -1,15 +1,12 @@
 (ns tanuki-lodge.clubhouse
   (:require [clj-http.client :as client]
             [cheshire.core :as json]
-            [environ.core :refer [env]]
-            [mount.core :refer [defstate]]
+            [mount.core :as mount :refer [defstate]]
             [camel-snake-kebab.core :refer :all]))
 
 (defonce config (atom nil))
 
-(defn clubhouse-url
-  ([url] (clubhouse-url url (:token @config)))
-  ([url token] (str url "?token=" token)))
+(defn clubhouse-url [url] (str url "?token=" (:token (mount/args))))
 
 
 (defn get-project []
@@ -45,9 +42,8 @@
 
 
 (defn initialize! []
-  (reset! config {:token (env :token)})
-  (reset! config {:states (workflow-states)
-                  :token (env :token)}))
+  (reset! config {:states (workflow-states)}))
 
-(defstate clubhouse-connection
-          :start (initialize!))
+(defstate
+  clubhouse-connection
+  :start (initialize!))

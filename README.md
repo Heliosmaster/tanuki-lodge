@@ -24,11 +24,27 @@ If you reference a story in the description of a merge request, the following th
 lein uberjar
 ```
 
-it will create a JAR file in `target/tanuki-lodge.jar`. Simply execute that jar passing the following environment variables:
+it will create a JAR file in `target/tanuki-lodge.jar`.
 
-* `token`: the clubhouse API token
-* `server-port`: in which to run the webserver
 
-so, for example, run it as
+Create a configuration file in EDN named `config.edn`, such as:
 
-`java -Dtoken="XXX" -Dserver.port=400 -jar /path/to/tanuki-lodge.jar`
+```
+{:token "YOUR_CLUBHOUSE_TOKEN_HERE"
+ :server-port "1234"
+ :merge-request-open-wip "In progress"
+ :merge-request-open "Review"
+ :merge-request-merged "To be Deployed"}
+```
+
+where the last few options are the names of the state in which you want to move the stories referenced in
+
+* `merge-request-open-wip`: **Open** and **Work In Progress** Merge request
+* `merge-request-open`: **Open** merge request
+* `merge-request-merged`: **Merged** merge request
+
+Then simply execute the jar file passing the path of the `config.edn` file you just created as first command-line argument.
+
+`java -jar /path/to/tanuki-lodge.jar /path/to/config.edn`
+
+At startup, the configuration file will be printed to `stdout` so you can make sure it was loaded correctly.
